@@ -23,7 +23,7 @@ public class CarController : MonoBehaviour
     public float groundRayLength = .75f;
 
     private float dragOnGround;
-    public float gravityMod = 5f;
+    public float gravityMod = 1f;
 
     public Transform leftFrontWheel, rightFrontWheel;
     public float maxWheelTurn = 25f;

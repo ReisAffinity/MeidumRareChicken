@@ -15,20 +15,20 @@ public class PlaySoundOnCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        
-        if (other.gameObject.layer != groundLayerNo)
-        {
-            //Just in case two cars hits at the same time.
-            soundToPlay.Stop();
+    //private void OnCollisionEnter(Collision other)
+    //{
 
-            soundToPlay.pitch = Random.Range(0.8f, 1.2f);
+    //if (other.gameObject.layer != groundLayerNo)
+    // {
+    //Just in case two cars hits at the same time.
+    //soundToPlay.Stop();
 
-            soundToPlay.Play();
-        }
-    }
+    //soundToPlay.pitch = Random.Range(0.8f, 1.2f);
+
+    //soundToPlay.Play();
+    //}
+    //}
 }
