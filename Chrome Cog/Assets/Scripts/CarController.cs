@@ -150,13 +150,13 @@ public class CarController : MonoBehaviour
 
             theRB.drag = dragOnGround;
 
-            theRB.AddForce(transform.forward * speedInput * 1000f);
+            theRB.AddForce(transform.forward * speedInput * 2000f);
         }
         else
         {
             theRB.drag = .1f;
 
-            theRB.AddForce(-Vector3.up * gravityMod * 100f); 
+            theRB.AddForce(-Vector3.up * gravityMod * 10f); 
         }
        
         
