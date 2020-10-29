@@ -37,6 +37,13 @@ public class CarController : MonoBehaviour
     public AudioSource skidSound;
     public float skidFadeSpeed;
 
+    //Checkpoint System
+    private int nextCheckpoint;
+    public int currentLap;
+
+    //Lap time / Best Lap System
+    public float lapTime, bestLapTime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,12 +51,20 @@ public class CarController : MonoBehaviour
 
         dragOnGround = theRB.drag;
 
+        UIManager.instance.lapCounterText.text = currentLap + "/" + RaceManager.instance.totalLaps;
+
         emissionRate = 100f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Every update laptime will be update
+        lapTime += Time.deltaTime;
+
+        var ts = System.TimeSpan.FromSeconds(lapTime);
+        UIManager.instance.currentLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
+
         // Going forward and backward
         speedInput = 0f;
         if(Input.GetAxis("Vertical") > 0)
@@ -173,5 +188,51 @@ public class CarController : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, turnInput * turnStrength * Time.deltaTime * Mathf.Sign(speedInput) * (theRB.velocity.magnitude / maxSpeed), 0f));
         }
+    }
+
+
+
+    //Checkpoint System Checker
+    public void CheckpointHit(int cpNumber)
+    {
+        //To check if its working
+        //Debug.Log(cpNumber);
+
+        //Make sure we gotta the next checkpoint
+        if(cpNumber == nextCheckpoint)
+        {
+            nextCheckpoint++;
+
+            //Once we had hit final checkpoint. Reset back to zero.
+            if(nextCheckpoint == RaceManager.instance.allCheckpoints.Length)
+            {
+                nextCheckpoint = 0;
+                //Called this method
+                LapCompleted();
+            }
+
+        }
+    }
+
+
+    public void LapCompleted()
+    {
+        //Update cureent lap
+        currentLap++;
+
+        // Lap Time / Best Lap Time
+        if(lapTime < bestLapTime || bestLapTime == 0)
+        {
+            bestLapTime = lapTime;
+        }
+
+        lapTime = 0f;
+
+        //Once we complete a lap better than best lap then update
+        var ts = System.TimeSpan.FromSeconds(bestLapTime);
+        UIManager.instance.bestLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
+
+        // When we add one map then we go to our UI and access the text component. Change it to dispaly current Lap
+        UIManager.instance.lapCounterText.text = currentLap + "/" + RaceManager.instance.totalLaps;
     }
 }
