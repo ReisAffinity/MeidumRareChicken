@@ -37,6 +37,27 @@ public class CarController : MonoBehaviour
     public AudioSource skidSound;
     public float skidFadeSpeed;
 
+    //Checkpoint System
+    private int nextCheckpoint;
+    public int currentLap;
+
+    //Lap time / Best Lap System
+    public float lapTime, bestLapTime;
+
+    //AI system
+    public bool isAI;
+
+    //point of the track where we went the ai to go to.
+    public int currentTarget;
+
+    //Store the position of track
+    private Vector3 targetPoint;
+
+    // Point Variance = randomize target point. Point Range = ai target point range
+    public float aiAcceleratedSpeed = 1f, aiTurnSpeed = .8f, aiReachPointRange = 5f, aiPointVariance = 3f, aiMaxTurn = 15f;
+    private float aiSpeedInput;
+    private float aiSpeedMod;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,31 +65,80 @@ public class CarController : MonoBehaviour
 
         dragOnGround = theRB.drag;
 
+        if(isAI)
+        {
+            targetPoint = RaceManager.instance.allCheckpoints[currentTarget].transform.position;
+            RandomizeAITarget();
+
+            aiSpeedMod = Random.Range(.8f, 1.1f);
+        }
+
+        UIManager.instance.lapCounterText.text = currentLap + "/" + RaceManager.instance.totalLaps;
+
         emissionRate = 100f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Going forward and backward
-        speedInput = 0f;
-        if(Input.GetAxis("Vertical") > 0)
+        //Every update laptime will be update
+        lapTime += Time.deltaTime;
+
+
+        //AI System
+        if (!isAI)
         {
-            speedInput = Input.GetAxis("Vertical") * forwardAccel;
+
+            var ts = System.TimeSpan.FromSeconds(lapTime);
+            UIManager.instance.currentLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
+
+            // Going forward and backward
+            speedInput = 0f;
+            if (Input.GetAxis("Vertical") > 0)
+            {
+                speedInput = Input.GetAxis("Vertical") * forwardAccel;
+            }
+            else if (Input.GetAxis("Vertical") < 0)
+            {
+                speedInput = Input.GetAxis("Vertical") * reverseAccel;
+            }
+
+            turnInput = Input.GetAxis("Horizontal");
+
         }
-        else if(Input.GetAxis("Vertical") < 0)
-        {
-            speedInput = Input.GetAxis("Vertical") * reverseAccel;
+        else
+        {   
+            //Making the checkpoints for the AI
+            targetPoint.y = transform.position.y;
+
+            if(Vector3.Distance(transform.position, targetPoint) < aiReachPointRange)
+            {
+                SetNextAITarget();
+            }
+            //Making the AI Move
+
+            Vector3 targetDir = targetPoint - transform.position;
+            float angle = Vector3.Angle(targetDir, transform.forward);
+
+            Vector3 localPos = transform.InverseTransformPoint(targetPoint);
+            if(localPos.x < 0f)
+            {
+                angle = -angle;
+            }
+
+            turnInput = Mathf.Clamp(angle / aiMaxTurn, -1f, 1f);
+
+            if(Mathf.Abs(angle) < aiMaxTurn)
+            {
+                aiSpeedInput = Mathf.MoveTowards(aiSpeedInput, 1f, aiAcceleratedSpeed);
+            }
+            else
+            {
+                aiSpeedInput = Mathf.MoveTowards(aiSpeedInput, aiTurnSpeed, aiAcceleratedSpeed);
+            }
+
+            speedInput = aiSpeedInput * forwardAccel * aiSpeedMod;
         }
-
-        turnInput = Input.GetAxis("Horizontal");
-
-        //Movement Air Control / Turn Left And Right
-
-        /*if(grounded && Input.GetAxis("Vertical") != 0)
-        {
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, turnInput * turnStrength * Time.deltaTime * Mathf.Sign(speedInput) * (theRB.velocity.magnitude / maxSpeed), 0f));
-        }*/
 
         //Turning the wheels
         leftFrontWheel.localRotation = Quaternion.Euler(leftFrontWheel.localRotation.eulerAngles.x, (turnInput * maxWheelTurn) - 180, leftFrontWheel.localRotation.eulerAngles.z);
@@ -150,7 +220,7 @@ public class CarController : MonoBehaviour
 
             theRB.drag = dragOnGround;
 
-            theRB.AddForce(transform.forward * speedInput * 1000f);
+            theRB.AddForce(transform.forward * speedInput * 800f);
         }
         else
         {
@@ -169,9 +239,86 @@ public class CarController : MonoBehaviour
 
         //Turn left or right of car when flying
 
-        if (grounded && Input.GetAxis("Vertical") != 0)
+        if (grounded && speedInput != 0)
         {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, turnInput * turnStrength * Time.deltaTime * Mathf.Sign(speedInput) * (theRB.velocity.magnitude / maxSpeed), 0f));
         }
     }
+
+
+
+    //Checkpoint System Checker
+    public void CheckpointHit(int cpNumber)
+    {
+        //To check if its working
+        //Debug.Log(cpNumber);
+
+        //Make sure we gotta the next checkpoint
+        if(cpNumber == nextCheckpoint)
+        {
+            nextCheckpoint++;
+
+            //Once we had hit final checkpoint. Reset back to zero.
+            if(nextCheckpoint == RaceManager.instance.allCheckpoints.Length)
+            {
+                nextCheckpoint = 0;
+                //Called this method
+                LapCompleted();
+            }
+
+        }
+
+        //Stop the ai from doing loops
+        if (isAI)
+        {
+            if(cpNumber == currentTarget)
+            {
+                SetNextAITarget();
+            }
+        }
+    }
+
+    public void SetNextAITarget()
+    {
+        currentTarget++;
+        if (currentTarget >= RaceManager.instance.allCheckpoints.Length)
+        {
+            currentTarget = 0;
+        }
+
+        targetPoint = RaceManager.instance.allCheckpoints[currentTarget].transform.position;
+        RandomizeAITarget();
+    }
+
+
+    public void LapCompleted()
+    {
+        //Update cureent lap
+        currentLap++;
+
+        // Lap Time / Best Lap Time
+        if(lapTime < bestLapTime || bestLapTime == 0)
+        {
+            bestLapTime = lapTime;
+        }
+
+        lapTime = 0f;
+
+        if (!isAI)
+        {
+            //Once we complete a lap better than best lap then update
+            var ts = System.TimeSpan.FromSeconds(bestLapTime);
+            UIManager.instance.bestLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
+
+            // When we add one map then we go to our UI and access the text component. Change it to dispaly current Lap
+            UIManager.instance.lapCounterText.text = currentLap + "/" + RaceManager.instance.totalLaps;
+        }
+    }
+
+    public void RandomizeAITarget()
+    {
+        targetPoint += new Vector3(Random.Range(-aiPointVariance, aiPointVariance), 0f, Random.Range(-aiPointVariance, aiPointVariance));
+    }
+
+    
 }
