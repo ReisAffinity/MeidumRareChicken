@@ -49,8 +49,10 @@ public class CarController : MonoBehaviour
 
     //point of the track where we went the ai to go to.
     public int currentTarget;
+
     //Store the position of track
     private Vector3 targetPoint;
+
     // Point Variance = randomize target point. Point Range = ai target point range
     public float aiAcceleratedSpeed = 1f, aiTurnSpeed = .8f, aiReachPointRange = 5f, aiPointVariance = 3f, aiMaxTurn = 15f;
     private float aiSpeedInput;
@@ -218,7 +220,7 @@ public class CarController : MonoBehaviour
 
             theRB.drag = dragOnGround;
 
-            theRB.AddForce(transform.forward * speedInput * 1000f);
+            theRB.AddForce(transform.forward * speedInput * 800f);
         }
         else
         {
@@ -317,4 +319,6 @@ public class CarController : MonoBehaviour
     {
         targetPoint += new Vector3(Random.Range(-aiPointVariance, aiPointVariance), 0f, Random.Range(-aiPointVariance, aiPointVariance));
     }
+
+    
 }
