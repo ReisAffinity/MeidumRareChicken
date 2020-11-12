@@ -113,6 +113,11 @@ PrefabInstance:
       propertyPath: rightFrontWheel
       value: 
       objectReference: {fileID: 4784395582629919670}
+    - target: {fileID: 2584560980262036720, guid: cfe27fbd3ea9f584395274b122642584,
+        type: 3}
+      propertyPath: isAI
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2584560980262036721, guid: cfe27fbd3ea9f584395274b122642584,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -166,6 +171,11 @@ PrefabInstance:
     - target: {fileID: 2584560980262036721, guid: cfe27fbd3ea9f584395274b122642584,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2584560980262036723, guid: cfe27fbd3ea9f584395274b122642584,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2584560980262036726, guid: cfe27fbd3ea9f584395274b122642584,

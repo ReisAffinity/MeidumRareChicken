@@ -106,7 +106,7 @@ PrefabInstance:
     - target: {fileID: 4290404630647357619, guid: 0ad4160d051880d40ba8ada29ee1afef,
         type: 3}
       propertyPath: m_Name
-      value: Police Car Variant
+      value: Police Car
       objectReference: {fileID: 0}
     - target: {fileID: 4290404630647357620, guid: 0ad4160d051880d40ba8ada29ee1afef,
         type: 3}
@@ -173,6 +173,16 @@ PrefabInstance:
       propertyPath: rightFrontWheel
       value: 
       objectReference: {fileID: 8110887549350926237}
+    - target: {fileID: 4290404630647357621, guid: 0ad4160d051880d40ba8ada29ee1afef,
+        type: 3}
+      propertyPath: isAI
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290404630647357622, guid: 0ad4160d051880d40ba8ada29ee1afef,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4290404630691962507, guid: 0ad4160d051880d40ba8ada29ee1afef,
         type: 3}
       propertyPath: m_LocalPosition.y

@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1123172723065820330, guid: 05d00003d22b8a74692f97857af256db,
         type: 3}
       propertyPath: m_Name
-      value: GarbageTruck
+      value: GarbageTruck Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1123172723065820332, guid: 05d00003d22b8a74692f97857af256db,
         type: 3}
@@ -105,7 +105,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 6badda03dbcfa4a4dbe26196ac9e6153,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 6badda03dbcfa4a4dbe26196ac9e6153,
         type: 3}

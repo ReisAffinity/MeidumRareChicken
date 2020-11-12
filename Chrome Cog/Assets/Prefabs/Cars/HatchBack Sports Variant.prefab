@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1123172723065820330, guid: 05d00003d22b8a74692f97857af256db,
         type: 3}
       propertyPath: m_Name
-      value: HatchBack Sports
+      value: HatchBack Sports Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1123172723065820332, guid: 05d00003d22b8a74692f97857af256db,
         type: 3}
