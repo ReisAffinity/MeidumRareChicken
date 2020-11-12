@@ -9,7 +9,9 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     // Text Mesh Pro variables for Canvas
-    public TMP_Text lapCounterText, bestLapTimeText, currentLapTimeText, positionText, countDownText, goText;
+    public TMP_Text lapCounterText, bestLapTimeText, currentLapTimeText, positionText, countDownText, goText, raceResultText;
+
+    public GameObject resultsScreen;
 
     private void Awake()
     {
@@ -27,5 +29,10 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ExitRace()
+    {
+        RaceManager.instance.ExitRace();
     }
 }

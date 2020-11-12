@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RaceManager : MonoBehaviour
 {
@@ -38,6 +39,12 @@ public class RaceManager : MonoBehaviour
 
     //Spawning Different Cars
     public List<CarController> carsToSpawn = new List<CarController>();
+
+    //Finishing the race
+    public bool raceCompleted;
+
+    //Level Name
+    public string raceCompletedScene;
 
     private void Awake()
     {
@@ -159,5 +166,40 @@ public class RaceManager : MonoBehaviour
                 playerCar.maxSpeed = Mathf.MoveTowards(playerCar.maxSpeed, playerDefaultSpeed + (rubberBandSpeedMod * ((float)playerPosition / (allAICars.Count + 1))), rubberBandAccel * Time.deltaTime);
             }
         }
+    }
+
+    public void FinishRace()
+    {
+        raceCompleted = true;
+
+        switch (playerPosition)
+        {
+            case 1:
+                UIManager.instance.raceResultText.text = "You finished 1st";
+
+                break;
+
+            case 2:
+                UIManager.instance.raceResultText.text = "You finished 2nd";
+
+                break;
+
+            case 3:
+                UIManager.instance.raceResultText.text = "You finished 3rd";
+
+                break;
+
+            default:
+                UIManager.instance.raceResultText.text = "You finished " + playerPosition + "th";
+
+                break;
+        }
+
+        UIManager.instance.resultsScreen.SetActive(true);
+    }
+
+    public void ExitRace()
+    {
+        SceneManager.LoadScene(raceCompletedScene);
     }
 }

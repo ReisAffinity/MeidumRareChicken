@@ -324,16 +324,37 @@ public class CarController : MonoBehaviour
             bestLapTime = lapTime;
         }
 
-        lapTime = 0f;
-
-        if (!isAI)
+        if (currentLap <= RaceManager.instance.totalLaps)
         {
-            //Once we complete a lap better than best lap then update
-            var ts = System.TimeSpan.FromSeconds(bestLapTime);
-            UIManager.instance.bestLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
 
-            // When we add one map then we go to our UI and access the text component. Change it to dispaly current Lap
-            UIManager.instance.lapCounterText.text = currentLap + "/" + RaceManager.instance.totalLaps;
+
+            lapTime = 0f;
+
+            if (!isAI)
+            {
+                //Once we complete a lap better than best lap then update
+                var ts = System.TimeSpan.FromSeconds(bestLapTime);
+                UIManager.instance.bestLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
+
+                // When we add one map then we go to our UI and access the text component. Change it to dispaly current Lap
+                UIManager.instance.lapCounterText.text = currentLap + "/" + RaceManager.instance.totalLaps;
+            }
+        }
+        else
+        {
+            if (!isAI)
+            {
+                isAI = true;
+                aiSpeedMod = 1f;
+
+                targetPoint = RaceManager.instance.allCheckpoints[currentTarget].transform.position;
+                RandomizeAITarget();
+
+                var ts = System.TimeSpan.FromSeconds(bestLapTime);
+                UIManager.instance.bestLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
+
+                RaceManager.instance.FinishRace();
+            }
         }
     }
 
