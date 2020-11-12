@@ -38,7 +38,7 @@ public class CarController : MonoBehaviour
     public float skidFadeSpeed;
 
     //Checkpoint System
-    private int nextCheckpoint;
+    public int nextCheckpoint;
     public int currentLap;
 
     //Lap time / Best Lap System
