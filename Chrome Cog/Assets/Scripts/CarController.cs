@@ -58,6 +58,10 @@ public class CarController : MonoBehaviour
     private float aiSpeedInput;
     private float aiSpeedMod;
 
+    // Reset CoolDown Timer
+    public float resetCoolDown = 2f;
+    private float resetCounter;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,7 +79,9 @@ public class CarController : MonoBehaviour
 
         UIManager.instance.lapCounterText.text = currentLap + "/" + RaceManager.instance.totalLaps;
 
-        emissionRate = 100f;
+        emissionRate = 50f;
+
+        resetCounter = resetCoolDown;
     }
 
     // Update is called once per frame
@@ -108,6 +114,17 @@ public class CarController : MonoBehaviour
                 }
 
                 turnInput = Input.GetAxis("Horizontal");
+
+                // Reset Button / CoolDown Timer
+                if (resetCounter > 0)
+                {
+                    resetCounter -= Time.deltaTime;
+                }
+
+                if (Input.GetKeyDown(KeyCode.R) && resetCounter <= 0)
+                {
+                    ResetToTrack();
+                }
 
             }
             else
@@ -325,5 +342,23 @@ public class CarController : MonoBehaviour
         targetPoint += new Vector3(Random.Range(-aiPointVariance, aiPointVariance), 0f, Random.Range(-aiPointVariance, aiPointVariance));
     }
 
-    
+
+    // Allow player to reset his position if he goes out of bounds
+    void ResetToTrack()
+    {
+        int pointToGoTo = nextCheckpoint - 1;
+        if (pointToGoTo < 0)
+        {
+            pointToGoTo = RaceManager.instance.allCheckpoints.Length - 1;
+        }
+
+        transform.position = RaceManager.instance.allCheckpoints[pointToGoTo].transform.position;
+        theRB.transform.position = transform.position;
+        theRB.velocity = Vector3.zero;
+
+        speedInput = 0f;
+        turnInput = 0f;
+
+        resetCounter = resetCoolDown;
+    }
 }
