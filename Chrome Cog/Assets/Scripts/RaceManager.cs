@@ -19,6 +19,18 @@ public class RaceManager : MonoBehaviour
     public float timeBetweenPosCheck = .2f;
     private float posCheckCounter;
 
+    //Rubber Band System
+    public float aiDefaultSpeed = 30f;
+    public float playerDefaultSpeed = 30f;
+    public float rubberBandSpeedMod = 3.5f;
+    public float rubberBandAccel = .5f;
+
+    //Race Time Countdown
+    public bool isStarting;
+    public float timeBetweenStartCount = 1f;
+    private float startCounter;
+    public int countDownCurrent = 3;
+
     private void Awake()
     {
         instance = this;
@@ -32,44 +44,90 @@ public class RaceManager : MonoBehaviour
         {
             allCheckpoints[i].cpNumber = i;
         }
+
+        //Timer Countdown true value
+        isStarting = true;
+        startCounter = timeBetweenStartCount;
+
+        UIManager.instance.countDownText.text = countDownCurrent + "!";
     }
 
     // Update is called once per frame
     void Update()
     {
-        posCheckCounter -= Time.deltaTime;
-        if (posCheckCounter <= 0)
+        //Timer Countdown
+        if (isStarting)
         {
-
-
-            //Player Position Three different checks; One for Ai ahead of player. Another Player ahead of ai and distance check between player and AI's
-            playerPosition = 1;
-
-            foreach (CarController aiCar in allAICars)
+            startCounter -= Time.deltaTime;
+            if(startCounter <= 0)
             {
-                if (aiCar.currentLap > playerCar.currentLap)
+                countDownCurrent--;
+                startCounter = timeBetweenStartCount;
+
+                UIManager.instance.countDownText.text = countDownCurrent + "!";
+
+                if (countDownCurrent == 0)
                 {
-                    playerPosition++;
+                    isStarting = false;
+
+                    UIManager.instance.countDownText.gameObject.SetActive(false);
+                    UIManager.instance.goText.gameObject.SetActive(true);
                 }
-                else if (aiCar.currentLap == playerCar.currentLap)
+            }
+        }
+        else
+        {
+            posCheckCounter -= Time.deltaTime;
+            if (posCheckCounter <= 0)
+            {
+
+
+                //Player Position Three different checks; One for Ai ahead of player. Another Player ahead of ai and distance check between player and AI's
+                playerPosition = 1;
+
+                foreach (CarController aiCar in allAICars)
                 {
-                    if (aiCar.nextCheckpoint > playerCar.nextCheckpoint)
+                    if (aiCar.currentLap > playerCar.currentLap)
                     {
                         playerPosition++;
                     }
-                    else if (aiCar.nextCheckpoint == playerCar.nextCheckpoint)
+                    else if (aiCar.currentLap == playerCar.currentLap)
                     {
-                        if (Vector3.Distance(aiCar.transform.position, allCheckpoints[aiCar.nextCheckpoint].transform.position) < Vector3.Distance(playerCar.transform.position, allCheckpoints[aiCar.nextCheckpoint].transform.position))
+                        if (aiCar.nextCheckpoint > playerCar.nextCheckpoint)
                         {
                             playerPosition++;
                         }
+                        else if (aiCar.nextCheckpoint == playerCar.nextCheckpoint)
+                        {
+                            if (Vector3.Distance(aiCar.transform.position, allCheckpoints[aiCar.nextCheckpoint].transform.position) < Vector3.Distance(playerCar.transform.position, allCheckpoints[aiCar.nextCheckpoint].transform.position))
+                            {
+                                playerPosition++;
+                            }
+                        }
                     }
                 }
+                posCheckCounter = timeBetweenPosCheck;
+
+                UIManager.instance.positionText.text = playerPosition + "/" + (allAICars.Count + 1);
             }
-            posCheckCounter = timeBetweenPosCheck;
 
-            UIManager.instance.positionText.text = playerPosition + "/" + (allAICars.Count + 1);
+            //Rubber Band Management
+            if (playerPosition == 1)
+            {
+                //Situation 1: Player ahead of ai Cars then ai Cars gets a boost
+                foreach (CarController aiCar in allAICars)
+                {
+                    aiCar.maxSpeed = Mathf.MoveTowards(aiCar.maxSpeed, aiDefaultSpeed + rubberBandSpeedMod, rubberBandAccel * Time.deltaTime);
+                }
+
+                //speed gradually moves to player default speed - rubberspeedmod, (how fast we are changing it)
+                playerCar.maxSpeed = Mathf.MoveTowards(playerCar.maxSpeed, playerDefaultSpeed - rubberBandSpeedMod, rubberBandAccel * Time.deltaTime);
+            }
+            else
+            {
+                //Situation 2: if Player is behind Ai cars then they will get a certain boost. Basically they will get a boost based on their position in the game.
+                playerCar.maxSpeed = Mathf.MoveTowards(playerCar.maxSpeed, playerDefaultSpeed + (rubberBandSpeedMod * ((float)playerPosition / (allAICars.Count + 1))), rubberBandAccel * Time.deltaTime);
+            }
         }
-
     }
 }
