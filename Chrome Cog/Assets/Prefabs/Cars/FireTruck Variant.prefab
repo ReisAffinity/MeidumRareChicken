@@ -96,7 +96,12 @@ PrefabInstance:
     - target: {fileID: 6574551784739562312, guid: b82332e68ad0f6a49a625d6043519126,
         type: 3}
       propertyPath: m_Name
-      value: FireTruck
+      value: FireTruck Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574551784739562317, guid: b82332e68ad0f6a49a625d6043519126,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6574551784739562318, guid: b82332e68ad0f6a49a625d6043519126,
         type: 3}
@@ -108,6 +113,11 @@ PrefabInstance:
       propertyPath: rightFrontWheel
       value: 
       objectReference: {fileID: 6053754273469439002}
+    - target: {fileID: 6574551784739562318, guid: b82332e68ad0f6a49a625d6043519126,
+        type: 3}
+      propertyPath: isAI
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6574551784739562319, guid: b82332e68ad0f6a49a625d6043519126,
         type: 3}
       propertyPath: m_LocalPosition.x

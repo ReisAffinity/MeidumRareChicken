@@ -91,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 1500058356589302595, guid: d64fe248444400a4cb079a010d650a29,
         type: 3}
       propertyPath: m_Name
-      value: Ambulance
+      value: Ambulance Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1500058356589302596, guid: d64fe248444400a4cb079a010d650a29,
         type: 3}

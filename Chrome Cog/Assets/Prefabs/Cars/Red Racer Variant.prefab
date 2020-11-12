@@ -107,6 +107,16 @@ PrefabInstance:
       propertyPath: rightFrontWheel
       value: 
       objectReference: {fileID: 4006303261032327399}
+    - target: {fileID: 5818093307365240265, guid: 9dd7abf99196c2a4f97a960c5deddfb1,
+        type: 3}
+      propertyPath: isAI
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818093307365240266, guid: 9dd7abf99196c2a4f97a960c5deddfb1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5818093307365240271, guid: 9dd7abf99196c2a4f97a960c5deddfb1,
         type: 3}
       propertyPath: m_Name
