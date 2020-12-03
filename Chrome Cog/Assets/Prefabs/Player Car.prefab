@@ -4810,7 +4810,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2584560980262036726}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6526141864335427868}
@@ -4847,8 +4847,8 @@ MonoBehaviour:
     m_Bits: 256
   groundRayLength: 0.75
   gravityMod: 10
-  leftFrontWheel: {fileID: 0}
-  rightFrontWheel: {fileID: 0}
+  leftFrontWheel: {fileID: 6832679115052227782}
+  rightFrontWheel: {fileID: 6297200724915080568}
   maxWheelTurn: 25
   dustTrail: []
   maxEmission: 25
@@ -4856,9 +4856,18 @@ MonoBehaviour:
   engineSound: {fileID: 2584560981770747003}
   skidSound: {fileID: 2584560981803716884}
   skidFadeSpeed: 2
+  nextCheckpoint: 0
   currentLap: 1
   lapTime: 0
   bestLapTime: 0
+  isAI: 0
+  currentTarget: 0
+  aiAcceleratedSpeed: 1
+  aiTurnSpeed: 0.8
+  aiReachPointRange: 5
+  aiPointVariance: 3
+  aiMaxTurn: 15
+  resetCoolDown: 2
 --- !u!81 &2584560980262036723
 AudioListener:
   m_ObjectHideFlags: 0
@@ -19731,7 +19740,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 998b4fa2f77cd5b468cdf002442b2959,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.588
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 998b4fa2f77cd5b468cdf002442b2959,
         type: 3}
@@ -19785,9 +19794,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 998b4fa2f77cd5b468cdf002442b2959, type: 3}
+--- !u!4 &6297200724915080568 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5228416442750742398, guid: 998b4fa2f77cd5b468cdf002442b2959,
+    type: 3}
+  m_PrefabInstance: {fileID: 2299993316774470150}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6526141864335427868 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 998b4fa2f77cd5b468cdf002442b2959,
+    type: 3}
+  m_PrefabInstance: {fileID: 2299993316774470150}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6832679115052227782 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4699993055987924672, guid: 998b4fa2f77cd5b468cdf002442b2959,
     type: 3}
   m_PrefabInstance: {fileID: 2299993316774470150}
   m_PrefabAsset: {fileID: 0}

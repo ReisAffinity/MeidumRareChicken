@@ -38,7 +38,7 @@ public class CarController : MonoBehaviour
     public float skidFadeSpeed;
 
     //Checkpoint System
-    private int nextCheckpoint;
+    public int nextCheckpoint;
     public int currentLap;
 
     //Lap time / Best Lap System
@@ -58,6 +58,10 @@ public class CarController : MonoBehaviour
     private float aiSpeedInput;
     private float aiSpeedMod;
 
+    // Reset CoolDown Timer
+    public float resetCoolDown = 2f;
+    private float resetCounter;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,114 +79,132 @@ public class CarController : MonoBehaviour
 
         UIManager.instance.lapCounterText.text = currentLap + "/" + RaceManager.instance.totalLaps;
 
-        emissionRate = 100f;
+        emissionRate = 50f;
+
+        resetCounter = resetCoolDown;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Every update laptime will be update
-        lapTime += Time.deltaTime;
-
-
-        //AI System
-        if (!isAI)
+        //Making sure the AI cars are not moving during countdown
+        if (!RaceManager.instance.isStarting)
         {
 
-            var ts = System.TimeSpan.FromSeconds(lapTime);
-            UIManager.instance.currentLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
+            //Every update laptime will be update
+            lapTime += Time.deltaTime;
 
-            // Going forward and backward
-            speedInput = 0f;
-            if (Input.GetAxis("Vertical") > 0)
+
+            //AI System
+            if (!isAI)
             {
-                speedInput = Input.GetAxis("Vertical") * forwardAccel;
-            }
-            else if (Input.GetAxis("Vertical") < 0)
-            {
-                speedInput = Input.GetAxis("Vertical") * reverseAccel;
-            }
 
-            turnInput = Input.GetAxis("Horizontal");
+                var ts = System.TimeSpan.FromSeconds(lapTime);
+                UIManager.instance.currentLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
 
-        }
-        else
-        {   
-            //Making the checkpoints for the AI
-            targetPoint.y = transform.position.y;
+                // Going forward and backward
+                speedInput = 0f;
+                if (Input.GetAxis("Vertical") > 0)
+                {
+                    speedInput = Input.GetAxis("Vertical") * forwardAccel;
+                }
+                else if (Input.GetAxis("Vertical") < 0)
+                {
+                    speedInput = Input.GetAxis("Vertical") * reverseAccel;
+                }
 
-            if(Vector3.Distance(transform.position, targetPoint) < aiReachPointRange)
-            {
-                SetNextAITarget();
-            }
-            //Making the AI Move
+                turnInput = Input.GetAxis("Horizontal");
 
-            Vector3 targetDir = targetPoint - transform.position;
-            float angle = Vector3.Angle(targetDir, transform.forward);
+                // Reset Button / CoolDown Timer
+                if (resetCounter > 0)
+                {
+                    resetCounter -= Time.deltaTime;
+                }
 
-            Vector3 localPos = transform.InverseTransformPoint(targetPoint);
-            if(localPos.x < 0f)
-            {
-                angle = -angle;
-            }
-
-            turnInput = Mathf.Clamp(angle / aiMaxTurn, -1f, 1f);
-
-            if(Mathf.Abs(angle) < aiMaxTurn)
-            {
-                aiSpeedInput = Mathf.MoveTowards(aiSpeedInput, 1f, aiAcceleratedSpeed);
-            }
-            else
-            {
-                aiSpeedInput = Mathf.MoveTowards(aiSpeedInput, aiTurnSpeed, aiAcceleratedSpeed);
-            }
-
-            speedInput = aiSpeedInput * forwardAccel * aiSpeedMod;
-        }
-
-        //Turning the wheels
-        leftFrontWheel.localRotation = Quaternion.Euler(leftFrontWheel.localRotation.eulerAngles.x, (turnInput * maxWheelTurn) - 180, leftFrontWheel.localRotation.eulerAngles.z);
-        rightFrontWheel.localRotation = Quaternion.Euler(rightFrontWheel.localRotation.eulerAngles.x, (turnInput * maxWheelTurn), rightFrontWheel.localRotation.eulerAngles.z);
-
-        //transform.position = theRB.position;
-
-        //Particle Effect Control
-        emissionRate = Mathf.MoveTowards(emissionRate, 0f, emissionFadeSpeed * Time.deltaTime);
-
-        if (grounded && (Mathf.Abs(turnInput) > .5f || (theRB.velocity.magnitude < maxSpeed * .5f && theRB.velocity.magnitude != 0)))
-        {
-            emissionRate = maxEmission;
-        }
-
-        if (theRB.velocity.magnitude <= .5f)
-        {
-            emissionRate = 0;
-        }
-
-        for (int i = 0; i < dustTrail.Length; i++)
-        {
-            var emissionModule = dustTrail[i].emission;
-
-            emissionModule.rateOverTime = emissionRate;
-        }
-
-        // Engine Sound
-        if(engineSound != null)
-        {
-            engineSound.pitch = 1f + ((theRB.velocity.magnitude / maxSpeed) * 2f);
-        }
-
-        //Skid Sound
-        if(skidSound != null)
-        {
-            if(Mathf.Abs(turnInput) > 0.5f)
-            {
-                skidSound.volume = 1f;
+                if (Input.GetKeyDown(KeyCode.R) && resetCounter <= 0)
+                {
+                    ResetToTrack();
+                }
 
             }
             else
             {
-                skidSound.volume = Mathf.MoveTowards(skidSound.volume, 0f, skidFadeSpeed * Time.deltaTime);
+                //Making the checkpoints for the AI
+                targetPoint.y = transform.position.y;
+
+                if (Vector3.Distance(transform.position, targetPoint) < aiReachPointRange)
+                {
+                    SetNextAITarget();
+                }
+                //Making the AI Move
+
+                Vector3 targetDir = targetPoint - transform.position;
+                float angle = Vector3.Angle(targetDir, transform.forward);
+
+                Vector3 localPos = transform.InverseTransformPoint(targetPoint);
+                if (localPos.x < 0f)
+                {
+                    angle = -angle;
+                }
+
+                turnInput = Mathf.Clamp(angle / aiMaxTurn, -1f, 1f);
+
+                if (Mathf.Abs(angle) < aiMaxTurn)
+                {
+                    aiSpeedInput = Mathf.MoveTowards(aiSpeedInput, 1f, aiAcceleratedSpeed);
+                }
+                else
+                {
+                    aiSpeedInput = Mathf.MoveTowards(aiSpeedInput, aiTurnSpeed, aiAcceleratedSpeed);
+                }
+
+                speedInput = aiSpeedInput * forwardAccel * aiSpeedMod;
+            }
+
+            //Turning the wheels
+            leftFrontWheel.localRotation = Quaternion.Euler(leftFrontWheel.localRotation.eulerAngles.x, (turnInput * maxWheelTurn) - 180, leftFrontWheel.localRotation.eulerAngles.z);
+            rightFrontWheel.localRotation = Quaternion.Euler(rightFrontWheel.localRotation.eulerAngles.x, (turnInput * maxWheelTurn), rightFrontWheel.localRotation.eulerAngles.z);
+
+            //transform.position = theRB.position;
+
+            //Particle Effect Control
+            emissionRate = Mathf.MoveTowards(emissionRate, 0f, emissionFadeSpeed * Time.deltaTime);
+
+            if (grounded && (Mathf.Abs(turnInput) > .5f || (theRB.velocity.magnitude < maxSpeed * .5f && theRB.velocity.magnitude != 0)))
+            {
+                emissionRate = maxEmission;
+            }
+
+            if (theRB.velocity.magnitude <= .5f)
+            {
+                emissionRate = 0;
+            }
+
+            for (int i = 0; i < dustTrail.Length; i++)
+            {
+                var emissionModule = dustTrail[i].emission;
+
+                emissionModule.rateOverTime = emissionRate;
+            }
+
+            // Engine Sound
+            if (engineSound != null)
+            {
+                engineSound.pitch = 1f + ((theRB.velocity.magnitude / maxSpeed) * 2f);
+            }
+
+            //Skid Sound
+            if (skidSound != null)
+            {
+                if (Mathf.Abs(turnInput) > 0.5f)
+                {
+                    skidSound.volume = 1f;
+
+                }
+                else
+                {
+                    skidSound.volume = Mathf.MoveTowards(skidSound.volume, 0f, skidFadeSpeed * Time.deltaTime);
+                }
             }
         }
     }
@@ -302,16 +324,37 @@ public class CarController : MonoBehaviour
             bestLapTime = lapTime;
         }
 
-        lapTime = 0f;
-
-        if (!isAI)
+        if (currentLap <= RaceManager.instance.totalLaps)
         {
-            //Once we complete a lap better than best lap then update
-            var ts = System.TimeSpan.FromSeconds(bestLapTime);
-            UIManager.instance.bestLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
 
-            // When we add one map then we go to our UI and access the text component. Change it to dispaly current Lap
-            UIManager.instance.lapCounterText.text = currentLap + "/" + RaceManager.instance.totalLaps;
+
+            lapTime = 0f;
+
+            if (!isAI)
+            {
+                //Once we complete a lap better than best lap then update
+                var ts = System.TimeSpan.FromSeconds(bestLapTime);
+                UIManager.instance.bestLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
+
+                // When we add one map then we go to our UI and access the text component. Change it to dispaly current Lap
+                UIManager.instance.lapCounterText.text = currentLap + "/" + RaceManager.instance.totalLaps;
+            }
+        }
+        else
+        {
+            if (!isAI)
+            {
+                isAI = true;
+                aiSpeedMod = 1f;
+
+                targetPoint = RaceManager.instance.allCheckpoints[currentTarget].transform.position;
+                RandomizeAITarget();
+
+                var ts = System.TimeSpan.FromSeconds(bestLapTime);
+                UIManager.instance.bestLapTimeText.text = string.Format("{0:00}m{1:00}.{2:000}s", ts.Minutes, ts.Seconds, ts.Milliseconds);
+
+                RaceManager.instance.FinishRace();
+            }
         }
     }
 
@@ -320,5 +363,23 @@ public class CarController : MonoBehaviour
         targetPoint += new Vector3(Random.Range(-aiPointVariance, aiPointVariance), 0f, Random.Range(-aiPointVariance, aiPointVariance));
     }
 
-    
+
+    // Allow player to reset his position if he goes out of bounds
+    void ResetToTrack()
+    {
+        int pointToGoTo = nextCheckpoint - 1;
+        if (pointToGoTo < 0)
+        {
+            pointToGoTo = RaceManager.instance.allCheckpoints.Length - 1;
+        }
+
+        transform.position = RaceManager.instance.allCheckpoints[pointToGoTo].transform.position;
+        theRB.transform.position = transform.position;
+        theRB.velocity = Vector3.zero;
+
+        speedInput = 0f;
+        turnInput = 0f;
+
+        resetCounter = resetCoolDown;
+    }
 }
