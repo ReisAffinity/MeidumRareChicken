@@ -445,9 +445,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: fc380000
-      m_LastClickedID: 14588
-      m_ExpandedIDs: 6afbffff
+      m_SelectedIDs: da4b0000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 34dbffff44deffffeee2ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -548,20 +548,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Meshtint Free Chicken Mega Toon Series
+    - Assets
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Meshtint Free Chicken Mega Toon Series
+  - Assets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\Practice Unity\Chrome Cog
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 624b0000
-    m_LastClickedID: 19298
-    m_ExpandedIDs: 00000000104b0000124b0000144b0000164b0000184b000000ca9a3b
+    scrollPos: {x: 0, y: 61}
+    m_SelectedIDs: c24b0000
+    m_LastClickedID: 19394
+    m_ExpandedIDs: 00000000c24b0000c44b0000c64b0000c84b0000ca4b0000d64b0000de4b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -577,7 +577,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 2}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -589,7 +589,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000104b0000124b0000144b0000164b0000184b0000
+    m_ExpandedIDs: 00000000c24b0000c44b0000c64b0000c84b0000ca4b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -773,9 +773,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 20.1642, y: 11.914328, z: 33.22827}
+    m_Target: {x: 41.031822, y: 6.563278, z: 12.880728}
     speed: 2
-    m_Value: {x: 20.1642, y: 11.914328, z: 33.22827}
+    m_Value: {x: 41.031822, y: 6.563278, z: 12.880728}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -821,13 +821,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.499935, y: -0.44266078, z: 0.33221146, w: 0.6661529}
+    m_Target: {x: 0.45523214, y: -0.54331344, z: 0.47108272, w: 0.525038}
     speed: 2
-    m_Value: {x: -0.49993497, y: 0.44266075, z: -0.33221146, w: -0.66615283}
+    m_Value: {x: 0.45452285, y: -0.5440978, z: 0.4717628, w: 0.52421993}
   m_Size:
-    m_Target: 38.98249
+    m_Target: 89.96614
     speed: 2
-    m_Value: 38.98249
+    m_Value: 86.092
   m_Ortho:
     m_Target: 0
     speed: 2
