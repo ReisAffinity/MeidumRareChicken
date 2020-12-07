@@ -8302,6 +8302,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Police Car
       objectReference: {fileID: 0}
+    - target: {fileID: 5818093309049002029, guid: 9dd7abf99196c2a4f97a960c5deddfb1,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.03
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9dd7abf99196c2a4f97a960c5deddfb1, type: 3}
 --- !u!1001 &1227226476
