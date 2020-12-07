@@ -11964,7 +11964,7 @@ MonoBehaviour:
   - {fileID: 1597560033787399494, guid: b0a77238cdc3f5c40b98e08bc56e027b, type: 3}
   - {fileID: 6529125226896310117, guid: 4ea0e52200aac0842bb3d003d61b85fe, type: 3}
   raceCompleted: 0
-  raceCompletedScene: Track 1
+  raceCompletedScene: MainMenu
 --- !u!4 &1931094262
 Transform:
   m_ObjectHideFlags: 0
