@@ -158,6 +158,7 @@ PrefabInstance:
       propertyPath: rightFrontWheel
       value: 
       objectReference: {fileID: 5711771542819892864}
+<<<<<<< HEAD
     - target: {fileID: 1500058356956629966, guid: d64fe248444400a4cb079a010d650a29,
         type: 3}
       propertyPath: m_Volume
@@ -168,6 +169,8 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.059
       objectReference: {fileID: 0}
+=======
+>>>>>>> aea95864272d5614d80717544037559d9b5e0703
     - target: {fileID: 8047296379834428013, guid: d64fe248444400a4cb079a010d650a29,
         type: 3}
       propertyPath: m_IsActive

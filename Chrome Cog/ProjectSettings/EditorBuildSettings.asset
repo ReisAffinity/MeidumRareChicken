@@ -9,6 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/Scenes/Tracks/Track 1.unity
+=======
+    path: Assets/Scenes/Tracks/snowtrack.unity
+>>>>>>> aea95864272d5614d80717544037559d9b5e0703
     guid: 317af408e46d6d04ebd7b683d97e6bf0
   m_configObjects: {}

@@ -1,5 +1,9 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/Tracks/Track 1.unity
+=======
+- path: Assets/Scenes/Tracks/snowtrack.unity
+>>>>>>> aea95864272d5614d80717544037559d9b5e0703
   isLoaded: 1
   isActive: 1
   isSubScene: 0
