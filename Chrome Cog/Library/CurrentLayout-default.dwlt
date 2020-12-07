@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 478, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 119
+  controlID: 112
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_MinSize: {x: 478, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 118
+  controlID: 111
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -415,9 +415,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 70b3ffffb6b6ffff08baffff6afbffff1a36000052370000dc370000fc380000
+      m_SelectedIDs: cc370000
+      m_LastClickedID: 14284
+      m_ExpandedIDs: 6afbffff1a360000b436000052370000fc380000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -698,7 +698,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: 14a7b1c3277b53a4faf32d5b78cf5780
-  m_Gizmos: 0
+  m_Gizmos: 1
   m_SceneIsLit: 1
   m_SceneLighting: 1
   m_2DMode: 0
@@ -706,9 +706,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 27.795988, y: 34.95158, z: 14.469435}
+    m_Target: {x: 41.097656, y: -1.3718376, z: 7.3604603}
     speed: 2
-    m_Value: {x: 27.795988, y: 34.95158, z: 14.469435}
+    m_Value: {x: 41.097656, y: -1.3718376, z: 7.3604603}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -754,13 +754,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.41893938, y: 0.5808671, z: -0.5036629, w: 0.48320714}
+    m_Target: {x: -0.5041586, y: 0.13588469, z: -0.08060481, w: -0.84909123}
     speed: 2
-    m_Value: {x: 0.41892216, y: 0.5808432, z: -0.50364214, w: 0.48318726}
+    m_Value: {x: -0.5041351, y: 0.13587834, z: -0.08060104, w: -0.84905154}
   m_Size:
-    m_Target: 21.76012
+    m_Target: 35.913227
     speed: 2
-    m_Value: 21.76012
+    m_Value: 35.913227
   m_Ortho:
     m_Target: 0
     speed: 2
