@@ -77,5 +77,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sedan Sports Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2584560981770747003, guid: cfe27fbd3ea9f584395274b122642584,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.219
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfe27fbd3ea9f584395274b122642584, type: 3}
